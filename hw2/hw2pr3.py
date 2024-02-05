@@ -208,11 +208,10 @@ def linreg_no_bias(X, y, reg=0.0):
 	# Find the numerical solution in part d
 	"*** YOUR CODE HERE ***"
 	m = X.shape[0]
-	aggrgate = X.T @ (np.eye(m) - np.ones(m) / m)
-	aggrgate_eyes= np.eye(aggrgate.shape[0])
-	W_opt = np.linalg.solve(aggrgate @ X + reg * aggrgate_eyes, \
-		aggrgate @ y)
-	b_opt = sum((y - X @ W_opt)) / m
+	mean_X = np.mean(X, axis=0)
+	X_centered = X - mean_X  # Centering X
+	W_opt = np.linalg.solve(X_centered.T @ X_centered + reg * np.eye(X.shape[1]), X_centered.T @ y)
+	b_opt = np.mean(y - X @ W_opt)
 
 	"*** END YOUR CODE HERE ***"
 
